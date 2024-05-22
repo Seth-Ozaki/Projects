@@ -1,34 +1,49 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate, useOutletContext } from "react-router-dom";
+import { getOne } from "../services/userService";
 
 export const UserTasks = (props) => {
-    const [users, setUsers] = useState([
-        {
-            id: 1,
-            name: "Seth",
-            todo: ["create app", "get it to mvp"],
-            completed: ["nothing", "nothing x2"]
-        },
-        {
-            id: 2,
-            name: "Haley",
-            todo: ["create app"],
-            completed: ["nothing"]
-        }
-    ]);
+    const [user, setUser] = useState({});
     const { id } = useParams();
+    const nav = useNavigate();
+    const [choice, setChoice] = useState('');
+    let list = [];
+    if (choice === 'task') {
+        list = user.task;
+    }
+    else if (choice === 'completed') {
+        list = user.completed;
+    }
+    useEffect(() => {
+        setChoice('');
+        getOne(id)
+            .then((res) => {
+                setUser(res);
+            })
+            .catch((err) => console.log(err));
+    }, [id]);
 
-    const [list, setList] = useState([]);
-    const choice = () => {
-        console.log(id);
-    };
 
     return (
         <>
-            <div style={{ display: "flex", gap: "10px" }}>
-                <button onClick={() => choice()}>To-Do</button>
-                <button>Completed</button>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div style={{ display: "flex", gap: "10px" }}>
+                    <button onClick={() => setChoice('task')}>To-Do</button>
+                    <button onClick={() => setChoice('completed')}>Completed</button>
+                </div>
+                <div>
+                    <button>Create Task</button>
+                </div>
+            </div>
+            <div>
+                {
+                    list.map((item, idx) => {
+                        return <p key={idx}>{item}</p>;
+                    })
+                }
             </div>
         </>
     );
 };
+
+

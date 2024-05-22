@@ -6,7 +6,7 @@ export const UserTabs = (props) => {
     const nav = useNavigate();
     return (
         <div>
-            <button onClick={() => nav(`/user/${user.id}`)}>{user.name}</button>
+            <button onClick={() => nav(`/user/${user._id}`)}>{user.firstName}</button>
         </div>
     );
 };

@@ -13,4 +13,6 @@ router.route("/users/:id")
     .get(UserController.readOne)
     .put(UserController.update);
 
+router.route("/users/task/:id")
+    .put(UserController.updateTaskArray);
 export default router;

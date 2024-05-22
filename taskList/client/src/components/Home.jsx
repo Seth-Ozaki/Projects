@@ -1,28 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { UserTabs } from "./UserTabs";
+import { getAll } from "../services/userService";
+import { useNavigate, Outlet } from "react-router-dom";
 
 
 
 export const Home = () => {
-    const [users, setUsers] = useState([
-        {
-            id: 1,
-            name: "Seth",
-            todo: ["create app", "get it to mvp"],
-            completed: ["nothing", "nothing x2"]
-        },
-        {
-            id: 2,
-            name: "Haley",
-            todo: ["create app"],
-            completed: ["nothing"]
-        }
-    ]);
+    const nav = useNavigate();
 
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        getAll()
+            .then((res) => {
+                setUsers(res);
+            })
+            .catch(err => console.log(err));
+    }, []);
+
+    const addUser = (newUser) => {
+        setUsers([...users, newUser]);
+    };
 
 
     return (
         <>
+            <h1>To Do List</h1>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
                     {
@@ -31,10 +34,12 @@ export const Home = () => {
                         })
                     }
                 </div>
-                <div>
-                    <button>Create User</button>
+                <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
+                    <button onClick={() => nav('/')}>Home</button>
+                    <button onClick={() => nav('/add')}>Create User</button>
                 </div>
             </div>
+            <Outlet context={{ addUser }} />
         </>
     );
 };
