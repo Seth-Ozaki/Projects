@@ -29,8 +29,8 @@ const update = (user) => {
         });
 };
 
-const updateTask = (user) => {
-    return http.put(`/users/task/${user._id}`, user)
+const addTaskToUser = (id, task) => {
+    return http.put(`/users/task/${id}`, task)
         .then(res => res.data)
         .catch(err => {
             throw err;
@@ -59,5 +59,5 @@ export {
     update,
     deleteThisUser,
     create,
-    updateTask
+    addTaskToUser
 };

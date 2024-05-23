@@ -54,10 +54,9 @@ const UserController = {
     updateTaskArray: async (req, res) => {
         try {
             const addTask = await User.findById(req.params.id);
-            console.log(req.body);
-            // addTask.task.push(Object.values(req.body));
-            // await addTask.save();
-            res.json(addTask.task);
+            addTask.task.push(req.body.task);
+            await addTask.save();
+            res.json(addTask);
         } catch (error) {
             console.log(error);
             res.status(400).json(error);

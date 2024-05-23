@@ -1,12 +1,17 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 import { getOne } from "../services/userService";
+import { CreateTask } from "../components/CreateTask";
 
 export const UserTasks = (props) => {
     const [user, setUser] = useState({});
     const { id } = useParams();
     const nav = useNavigate();
     const [choice, setChoice] = useState('');
+    const [form, setForm] = useState(false);
+
+
+
     let list = [];
     if (choice === 'task') {
         list = user.task;
@@ -14,6 +19,8 @@ export const UserTasks = (props) => {
     else if (choice === 'completed') {
         list = user.completed;
     }
+
+
     useEffect(() => {
         setChoice('');
         getOne(id)
@@ -22,6 +29,15 @@ export const UserTasks = (props) => {
             })
             .catch((err) => console.log(err));
     }, [id]);
+
+    const resetForm = (task) => {
+        setForm(false);
+        addNewTask(task);
+    };
+
+    const addNewTask = (task) => {
+        return setUser({ ...user, task: user.task.concat(task) });
+    };
 
 
     return (
@@ -32,14 +48,20 @@ export const UserTasks = (props) => {
                     <button onClick={() => setChoice('completed')}>Completed</button>
                 </div>
                 <div>
-                    <button>Create Task</button>
+                    <button onClick={() => setForm(true)}>Create Task</button>
                 </div>
             </div>
             <div>
                 {
                     list.map((item, idx) => {
-                        return <p key={idx}>{item}</p>;
+                        return <li className='listItem' key={idx}>{item}</li>;
                     })
+                }
+            </div>
+            <div>
+                {
+                    form &&
+                    <CreateTask resetForm={resetForm} />
                 }
             </div>
         </>
