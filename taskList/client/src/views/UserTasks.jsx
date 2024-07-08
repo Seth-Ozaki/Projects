@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate, useOutletContext } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getOne } from "../services/userService";
 import { CreateTask } from "../components/CreateTask";
 
@@ -45,7 +45,7 @@ export const UserTasks = (props) => {
             <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <div style={{ display: "flex", gap: "10px" }}>
                     <button onClick={() => setChoice('task')}>To-Do</button>
-                    <button onClick={() => setChoice('completed')}>Completed</button>
+                    {/* <button onClick={() => setChoice('completed')}>Completed</button> */}
                 </div>
                 <div>
                     <button onClick={() => setForm(true)}>Create Task</button>

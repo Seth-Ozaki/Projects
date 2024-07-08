@@ -50,7 +50,7 @@ export const CreateUser = () => {
                     <form onSubmit={createUser}>
                         <div>
                             <h3>Create a user</h3>
-                            <div>
+                            <div style={{ color: "black" }}>
                                 <p>First Name:</p>
                                 {errors.firstName === undefined ?
                                     <input type="text" value={userState.firstName} name="firstName" onChange={handleChange} />

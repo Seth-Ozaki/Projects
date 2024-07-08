@@ -47,3 +47,7 @@ button:focus-visible {
 .listItem {
     margin: 10px;
 }
+
+input {
+    color: black;
+}
